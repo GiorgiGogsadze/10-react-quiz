@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import FinishedScreen from "./FinishedScreen";
@@ -7,6 +7,10 @@ import Loader from "./Loader";
 import UIError from "./Error";
 import Question from "./Question";
 import Progressbar from "./Progressbar";
+import NextButton from "./NextButton";
+import Timer from "./Timer";
+
+const SECS_PER_QUESTION = 30;
 
 const initialGameState = {
   questions: [],
@@ -14,7 +18,6 @@ const initialGameState = {
   index: 0,
   curPoints: 0,
   answerI: null,
-  time: 600,
   highScore: 0,
 };
 
@@ -45,20 +48,19 @@ const redGame = (state, action) => {
       };
     }
     case "nextQuestion":
-      if (state.index === state.questions.length - 1) {
-        return {
-          ...state,
-          status: "finished",
-          highScore:
-            state.highScore <= state.curPoints
-              ? state.curPoints
-              : state.highScore,
-        };
-      }
       return {
         ...state,
         index: state.index + 1,
         answerI: null,
+      };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highScore:
+          state.highScore <= state.curPoints
+            ? state.curPoints
+            : state.highScore,
       };
     case "restart":
       return {
@@ -74,11 +76,11 @@ const redGame = (state, action) => {
 
 export default function App() {
   const [game, disGame] = useReducer(redGame, initialGameState);
-  const { status, questions, index, curPoints, time, answerI, highScore } =
-    game;
+  const { status, questions, index, curPoints, answerI, highScore } = game;
   const numQuestions = questions.length;
   const maxPoints = questions.reduce((acc, el) => acc + el.points, 0);
   const curQuestion = questions[index];
+  const maxTime = numQuestions * SECS_PER_QUESTION;
 
   useEffect(() => {
     (async () => {
@@ -119,17 +121,15 @@ export default function App() {
               disGame={disGame}
               answerI={answerI}
             />
-            <div className="timer">
-              {new Date(time * 1000).toISOString().slice(14, 19)}
-            </div>
-            {answerI !== null && (
-              <button
-                className="btn btn-ui"
-                onClick={() => disGame({ type: "nextQuestion" })}
-              >
-                {index === numQuestions - 1 ? "Finish" : "Next"}
-              </button>
-            )}
+            <footer>
+              <Timer maxTime={maxTime} disGame={disGame} />
+              <NextButton
+                answerI={answerI}
+                index={index}
+                numQuestions={numQuestions}
+                disGame={disGame}
+              />
+            </footer>
           </>
         )}
         {status === "finished" && (
