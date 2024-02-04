@@ -1,4 +1,7 @@
-export default function Welcome({ numQuestions, disGame }) {
+import { useGame } from "../contexts/GameContext";
+
+export default function Welcome() {
+  const { numQuestions, disGame } = useGame();
   return (
     <div>
       <h2>Welcome to The React Quiz!</h2>

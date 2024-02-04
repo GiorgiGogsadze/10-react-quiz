@@ -1,4 +1,7 @@
-export default function NextButton({ answerI, index, numQuestions, disGame }) {
+import { useGame } from "../contexts/GameContext";
+
+export default function NextButton() {
+  const { answerI, index, numQuestions, disGame } = useGame();
   if (answerI === null) return null;
   return index !== numQuestions - 1 ? (
     <button

@@ -1,7 +1,11 @@
-function Progressbar({ curValue, maxValue, children }) {
+import { useGame } from "../contexts/GameContext";
+
+function Progressbar({ children }) {
+  const { curValue, numQuestions } = useGame();
+
   return (
     <header className="progress">
-      <progress value={curValue} max={maxValue} />
+      <progress value={curValue} max={numQuestions} />
       {children}
     </header>
   );

@@ -1,4 +1,7 @@
-function Question({ curQuestion, disGame, answerI }) {
+import { useGame } from "../contexts/GameContext";
+
+function Question() {
+  const { curQuestion, disGame, answerI } = useGame();
   return (
     <>
       <h4>{curQuestion.question}</h4>

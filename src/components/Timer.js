@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useGame } from "../contexts/GameContext";
 
-function Timer({ maxTime, disGame }) {
+function Timer() {
+  const { maxTime, disGame } = useGame();
   const [time, setTime] = useState(maxTime);
   const mins = Math.trunc(time / 60);
   const secs = time % 60;

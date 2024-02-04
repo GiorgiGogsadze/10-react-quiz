@@ -1,9 +1,7 @@
-export default function FinishedScreen({
-  curPoints,
-  maxPoints,
-  disGame,
-  highScore,
-}) {
+import { useGame } from "../contexts/GameContext";
+
+export default function FinishedScreen() {
+  const { curPoints, maxPoints, disGame, highScore } = useGame();
   const percentage = Math.round((curPoints / maxPoints) * 100);
   let emoji;
   if (percentage === 100) emoji = "🥇";
