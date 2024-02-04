@@ -1,7 +1,8 @@
 import { useGame } from "../contexts/GameContext";
 
 function Question() {
-  const { curQuestion, disGame, answerI } = useGame();
+  const { questions, index, disGame, answerI } = useGame();
+  const curQuestion = questions[index];
   return (
     <>
       <h4>{curQuestion.question}</h4>

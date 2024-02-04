@@ -77,9 +77,7 @@ function GameProvider({ children }) {
   const { status, questions, index, curPoints, answerI, highScore } = game;
   const numQuestions = questions.length;
   const maxPoints = questions.reduce((acc, el) => acc + el.points, 0);
-  const curQuestion = questions[index];
   const maxTime = numQuestions * SECS_PER_QUESTION;
-  const curValue = answerI === null ? index : index + 1;
   useEffect(() => {
     (async () => {
       try {
@@ -94,19 +92,16 @@ function GameProvider({ children }) {
   return (
     <GameContext.Provider
       value={{
-        game,
-        disGame,
-        status,
         questions,
+        status,
         index,
-        curPoints,
         answerI,
+        curPoints,
         highScore,
         numQuestions,
         maxPoints,
-        curQuestion,
         maxTime,
-        curValue,
+        disGame,
       }}
     >
       {children}
